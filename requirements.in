@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+dynaconf
+jinja2
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+psycopg2-binary
+rich
+click
+colorama
+bcrypt
+pytz
+boto3
+typer

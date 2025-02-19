@@ -1,0 +1,17 @@
+.docker
+.venv
+*.egg-info
+.dockerignore
+.git
+.gitignore
+docker-compose.yaml
+Dockerfile.dev
+Dockerfile
+requirements.in
+**/__pycache__
+.secrets.toml
+tests
+**/tests
+*.pyc
+*.pyo
+*.pyd
