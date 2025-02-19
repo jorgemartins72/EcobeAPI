@@ -174,5 +174,5 @@ storage.db
 .env
 .secrets.toml
 .docker
-requirements.txt
+# requirements.txt
 
