@@ -8,7 +8,8 @@ WORKDIR $APP_HOME
 
 COPY . $APP_HOME
 
-RUN pip install pip --upgrade && pip install --no-cache-dir -e . && rm -rf ~/.cache/pip
+RUN pip install pip --upgrade
+RUN pip install -e . && rm -rf ~/.cache/pip
 
 # Create the app user
 
