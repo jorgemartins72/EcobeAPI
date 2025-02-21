@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import os
-from jmutils import show
 import json
 
 app = FastAPI(
@@ -15,6 +14,5 @@ def read_root():
     env = dict()
     for key, value in os.environ.items():
         env[key] = value
-    show(env)
 
     return {'message': env}
