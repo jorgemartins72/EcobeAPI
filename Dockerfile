@@ -8,21 +8,8 @@ WORKDIR $APP_HOME
 
 COPY . $APP_HOME
 
-RUN pip install pip --upgrade
-RUN pip install -e . && rm -rf ~/.cache/pip
-
-# Create the app user
-
-RUN addgroup -S ecobe
-RUN adduser \
-  --disabled-password \
-  --gecos "" \
-  --home /home/ecobe \
-  --ingroup ecobe \
-  ecobe
-
-
-WORKDIR $APP_HOME
+RUN pip install pip --upgrade && pip install -e . && rm -rf ~/.cache/pip
+RUN addgroup -S ecobe && adduser -S ecobe -G ecobe
 RUN chown -R ecobe:ecobe $APP_HOME
 USER ecobe
 

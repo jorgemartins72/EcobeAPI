@@ -3,6 +3,15 @@ FROM python:3.12.7-alpine
 
 ENV APP_HOME=/home/ecobe/api
 
+# ENV ECOBE_ENV = ${ECOBE_ENV}
+# ENV ECOBE_AWS_PROFILE = ${AWS_PROFILE}
+# ENV ECOBE_AWS_DEFAULT_PROFILE = ${AWS_DEFAULT_PROFILE}
+# ENV ECOBE_AWS_ACCESS_KEY_ID = ${ECOBE_AWS_ACCESS_KEY_ID}
+# ENV ECOBE_AWS_SECRET_ACCESS_KEY = ${ECOBE_AWS_SECRET_ACCESS_KEY}
+# ENV ECOBE_AWS_REGION = "us-east-1"
+
+RUN apk add --no-cache bash
+
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
@@ -11,20 +20,22 @@ COPY . $APP_HOME
 RUN pip install pip --upgrade && pip install --no-cache-dir -r requirements-dev.txt && rm -rf ~/.cache/pip
 RUN pip install --no-cache-dir -e . && rm -rf ~/.cache/pip
 
-# Create the app user
+RUN addgroup -S ecobe && adduser -S ecobe -G ecobe
 
-RUN addgroup -S ecobe
-RUN adduser \
-  --disabled-password \
-  --gecos "" \
-  --home /home/ecobe \
-  --ingroup ecobe \
-  ecobe
-
-
-WORKDIR $APP_HOME
+# WORKDIR $APP_HOME
 RUN chown -R ecobe:ecobe $APP_HOME
+
+RUN echo "PS1='${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u:\[\033[01;34m\]\w\[\033[00m\]\$ '" > /home/ecobe/.bashrc && \
+  echo "alias ll='ls -alF'" >> /home/ecobe/.bashrc && \
+  echo "if [ -x /usr/bin/dircolors ]; then" >> /home/ecobe/.bashrc && \
+  echo '	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"' >> /home/ecobe/.bashrc && \
+  echo "	alias ls='ls --color=auto'" >> /home/ecobe/.bashrc && \
+  echo "	alias grep='grep --color=auto'" >> /home/ecobe/.bashrc && \
+  echo "	alias grep='grep --color=auto'" >> /home/ecobe/.bashrc && \
+  echo "	alias fgrep='fgrep --color=auto'" >> /home/ecobe/.bashrc && \
+  echo "	alias egrep='egrep --color=auto'" >> /home/ecobe/.bashrc && \
+  echo "fi" >> /home/ecobe/.bashrc
+
 USER ecobe
 
 CMD ["uvicorn","infra.api.app:app","--host=0.0.0.0","--port=8000","--reload"]
-
