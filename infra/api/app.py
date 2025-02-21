@@ -14,5 +14,6 @@ def read_root():
     env = dict()
     for key, value in os.environ.items():
         env[key] = value
+    env['FOOFOO'] = "BARBAR"
 
     return {'message': env}
