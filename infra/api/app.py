@@ -10,11 +10,12 @@ app = FastAPI(
 
 @app.get('/')
 def read_root():
+    return {'message': "Ecobe"}
 
+@app.get('/testando')
+def teste():
     env = dict()
     for key, value in os.environ.items():
         env[key] = value
-    env['FOOFOOFOO'] = "BARBARBAR"
 
-    # return {'message': env}
-    return {'message': "Ecobe"}
+    return {'message': env}
