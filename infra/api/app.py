@@ -16,5 +16,5 @@ def read_root():
         env[key] = value
     env['FOOFOOFOO'] = "BARBARBAR"
 
-    return {'message': env}
-    # return {'message': env['ECOBE_ENV']}
+    # return {'message': env}
+    return {'message': "Ecobe"}
